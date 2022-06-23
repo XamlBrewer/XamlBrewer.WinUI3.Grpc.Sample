@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "XamlBrewer.WinUI3.Grpc.Client (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "XamlBrewer.WinUI3.Grpc.Client (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
