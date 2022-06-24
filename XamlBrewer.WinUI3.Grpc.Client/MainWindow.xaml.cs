@@ -17,6 +17,8 @@ namespace XamlBrewer.WinUI3.Grpc.Client
         private Random _rnd = new Random(DateTime.Now.Millisecond);
 
         private bool _isPowerOn;
+        private bool _isBeamingUp;
+        private bool _isSingleTarget;
 
         private Uri _leverUpUri = new Uri("ms-resource:///Files/Assets/LeverUp.png");
         private Uri _leverDownUri = new Uri("ms-resource:///Files/Assets/LeverDown.png");
@@ -204,6 +206,42 @@ namespace XamlBrewer.WinUI3.Grpc.Client
                 WriteLog("- Transporter channel closed.");
 
                 PowerIcon.UriSource = _leverUpUri;
+            }
+        }
+
+        private void DirectionButton_Click(object sender, RoutedEventArgs e)
+        {
+            _isBeamingUp = !_isBeamingUp;
+
+            if (_isBeamingUp)
+            {
+                WriteLog("Beam direction UP.");
+
+                DirectionIcon.UriSource = _leverDownUri;
+            }
+            else
+            {
+                WriteLog("Beam direction DOWN.");
+
+                DirectionIcon.UriSource = _leverUpUri;
+            }
+        }
+
+        private void TargetButton_Click(object sender, RoutedEventArgs e)
+        {
+            _isSingleTarget = !_isSingleTarget;
+
+            if (_isSingleTarget)
+            {
+                WriteLog("Locked on single.");
+
+                TargetIcon.UriSource = _leverDownUri;
+            }
+            else
+            {
+                WriteLog("Locked on party.");
+
+                TargetIcon.UriSource = _leverUpUri;
             }
         }
     }
