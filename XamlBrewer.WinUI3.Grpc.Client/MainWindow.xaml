@@ -9,27 +9,73 @@
           RequestedTheme="Light">
         <Grid Background="Transparent">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="auto" />
                 <RowDefinition Height="*" />
+                <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
 
-            <!-- Background -->
-            <!--
-            <Image Stretch="UniformToFill"
-                   HorizontalAlignment="Right"
-                   VerticalAlignment="Bottom"
-                   Opacity=".2"
-                   Source="/Assets/Background.jpg"
-                   Grid.RowSpan="10"
-                   Grid.ColumnSpan="10" />-->
+            <!-- Log -->
+            <ScrollViewer x:Name="LogScroll"
+                          Margin="12">
+                <TextBlock x:Name="Log"
+                           Foreground="DimGray"
+                           TextWrapping="Wrap" />
+            </ScrollViewer>
 
             <!-- Actions -->
-            <StackPanel Grid.Row="1">
-                <Button Click="BeamUpOne_Click"
+            <Grid Margin="40"
+                  Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="120" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+
+                <TextBlock FontWeight="SemiBold"
+                           HorizontalAlignment="Center"
+                           HorizontalTextAlignment="Center">Power</TextBlock>
+                <TextBlock HorizontalAlignment="Center"
+                           HorizontalTextAlignment="Center"
+                           Grid.Row="1">Off</TextBlock>
+                <Button Click="PowerButton_Click"
+                        Background="Transparent"
+                        HorizontalAlignment="Center"
+                        Grid.Column="0"
+                        Grid.Row="2">
+                    <BitmapIcon x:Name="PowerIcon"
+                                UriSource="/Assets/LeverUp.png"
+                                ShowAsMonochrome="False"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center" />
+                </Button>
+                <TextBlock HorizontalAlignment="Center"
+                           HorizontalTextAlignment="Center"
+                           Grid.Row="3">On</TextBlock>
+                <Button Background="Transparent"
+                        Grid.Column="1"
+                        Grid.Row="2">
+                    <BitmapIcon UriSource="/Assets/LeverDown.png"
+                                ShowAsMonochrome="False"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center" />
+                </Button>
+                <!--<Button Background="Transparent">
+                    <BitmapIcon UriSource="/Assets/Panic.png"
+                                ShowAsMonochrome="False"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center" />
+                </Button>-->
+                <!--<Button Click="BeamUpOne_Click"
                         HorizontalAlignment="Stretch"
                         Margin="12">One to beam up</Button>
                 <Button Click="BeamUpParty_Click"
@@ -46,18 +92,8 @@
                         Margin="12">Party to replace</Button>
                 <Button Click="CloseChannel_Click"
                         HorizontalAlignment="Stretch"
-                        Margin="12">Close channel</Button>
-            </StackPanel>
-
-            <!-- Log -->
-            <ScrollViewer x:Name="LogScroll"
-                          Margin="12"
-                          Grid.Row="1"
-                          Grid.Column="1">
-                <TextBlock x:Name="Log"
-                           Foreground="DimGray"
-                           TextWrapping="Wrap" />
-            </ScrollViewer>
+                        Margin="12">Close channel</Button>-->
+            </Grid>
 
             <!-- XAML Brewer Logo -->
             <Viewbox StretchDirection="DownOnly"

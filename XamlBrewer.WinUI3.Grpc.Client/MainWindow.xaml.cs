@@ -16,6 +16,11 @@ namespace XamlBrewer.WinUI3.Grpc.Client
 
         private Random _rnd = new Random(DateTime.Now.Millisecond);
 
+        private bool _isPowerOn;
+
+        private Uri _leverUpUri = new Uri("ms-resource:///Files/Assets/LeverUp.png");
+        private Uri _leverDownUri = new Uri("ms-resource:///Files/Assets/LeverDown.png");
+
         public MainWindow()
         {
             Title = "XAML Brewer WinUI 3 gRPC Client Sample";
@@ -23,16 +28,6 @@ namespace XamlBrewer.WinUI3.Grpc.Client
             InitializeComponent();
 
             WriteLog("Transporter Room Panel Startup.");
-            WriteLog("- Openening a channel.");
-            _channel = new Channel("localhost:5175", ChannelCredentials.Insecure);
-
-            // Optional: deadline.
-            // Uncomment the delay in Server Program.cs to test this.
-            // await _channel.ConnectAsync(deadline: DateTime.UtcNow.AddSeconds(2));
-
-            WriteLog("- Channel open.");
-
-            _client = new TransporterClient(_channel);
         }
 
         private void BeamUpOne_Click(object sender, RoutedEventArgs e)
@@ -182,5 +177,34 @@ namespace XamlBrewer.WinUI3.Grpc.Client
         }
 
         private string Stardate => DateTime.Now.ToString("mm:ss.fff");
+
+        private async void PowerButton_Click(object sender, RoutedEventArgs e)
+        {
+            _isPowerOn = !_isPowerOn;
+
+            if (_isPowerOn)
+            {
+                WriteLog("Opening a channel.");
+                _channel = new Channel("localhost:5175", ChannelCredentials.Insecure);
+
+                // Optional: deadline.
+                // Uncomment the delay in Server Program.cs to test this.
+                // await _channel.ConnectAsync(deadline: DateTime.UtcNow.AddSeconds(2));
+
+                WriteLog("- Channel open.");
+
+                _client = new TransporterClient(_channel);
+
+                PowerIcon.UriSource = _leverDownUri;
+            }
+            else
+            {
+                WriteLog("Routing all energy to deflector shields.");
+                await _channel.ShutdownAsync();
+                WriteLog("- Transporter channel closed.");
+
+                PowerIcon.UriSource = _leverUpUri;
+            }
+        }
     }
 }
