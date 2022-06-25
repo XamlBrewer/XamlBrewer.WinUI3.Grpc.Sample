@@ -12,9 +12,7 @@
     <EnablePreviewMsixTooling>true</EnablePreviewMsixTooling>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="Assets\LeverDown.png" />
-    <None Remove="Assets\LeverUp.png" />
-    <None Remove="Assets\Panic.png" />
+    <None Remove="Assets\Console.png" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\XamlBrewer.WinUI3.Grpc.Server\Data\LifeForms.cs" Link="Data\LifeForms.cs" />

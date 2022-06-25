@@ -5,7 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d">
-    <Page Background="White"
+    <Page Background="Black"
           RequestedTheme="Light">
         <Grid Background="Transparent">
             <Grid.ColumnDefinitions>
@@ -17,21 +17,23 @@
             </Grid.RowDefinitions>
 
             <!-- Log -->
-            <ScrollViewer x:Name="LogScroll"
-                          Margin="12">
-                <Border BorderBrush="Firebrick"
-                        BorderThickness="1"
-                        CornerRadius="4"
-                        Padding="8">
+            <Grid Padding="20">
+                <Image Source="/Assets/Console.png"
+                       VerticalAlignment="Stretch"
+                       HorizontalAlignment="Stretch"
+                       Stretch="Fill" />
+                <ScrollViewer x:Name="LogScroll"
+                              Margin="200 40">
                     <TextBlock x:Name="Log"
-                               Foreground="DimGray"
+                               Foreground="Wheat"
                                TextWrapping="Wrap" />
-                </Border>
-            </ScrollViewer>
+                </ScrollViewer>
+            </Grid>
 
             <!-- Actions -->
-            <Grid Margin="40"
-                  Grid.Row="1">
+            <Grid Margin="20 20 20 80"
+                  Grid.Row="1"
+                  CornerRadius="4">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
@@ -41,101 +43,72 @@
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" />
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="120" />
-                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="60" />
                 </Grid.RowDefinitions>
 
-                <TextBlock FontWeight="SemiBold"
+                <TextBlock Foreground="Wheat"
+                           FontWeight="SemiBold"
                            HorizontalAlignment="Center"
                            HorizontalTextAlignment="Center">Power</TextBlock>
-                <TextBlock HorizontalAlignment="Center"
-                           HorizontalTextAlignment="Center"
-                           Grid.Row="1">Off</TextBlock>
-                <Button Click="PowerButton_Click"
-                        Background="Transparent"
-                        HorizontalAlignment="Center"
+                <Button x:Name="PowerButton"
+                        Click="PowerButton_Click"
+                        Background="#6599FE"
+                        Foreground="Black"
+                        CornerRadius="20 0 0 20"
+                        HorizontalAlignment="Stretch"
+                        Height="40"
+                        Content="Off"
                         Grid.Column="0"
-                        Grid.Row="2">
-                    <BitmapIcon x:Name="PowerIcon"
-                                UriSource="/Assets/LeverUp.png"
-                                ShowAsMonochrome="False"
-                                VerticalAlignment="Center"
-                                HorizontalAlignment="Center" />
-                </Button>
-                <TextBlock HorizontalAlignment="Center"
-                           HorizontalTextAlignment="Center"
-                           Grid.Row="3">On</TextBlock>
-                <TextBlock FontWeight="SemiBold"
+                        Grid.Row="1" />
+                <TextBlock Foreground="Wheat"
+                           FontWeight="SemiBold"
                            HorizontalAlignment="Center"
                            HorizontalTextAlignment="Center"
                            Grid.Column="1">Beam</TextBlock>
-                <TextBlock HorizontalAlignment="Center"
-                           HorizontalTextAlignment="Center"
-                           Grid.Row="1"
-                           Grid.Column="1">Up</TextBlock>
-                <Button Click="DirectionButton_Click"
-                        Background="Transparent"
-                        HorizontalAlignment="Center"
+                <Button x:Name="DirectionButton"
+                        Click="DirectionButton_Click"
+                        Background="#AB75FF"
+                        Foreground="Black"
+                        CornerRadius="0"
+                        HorizontalAlignment="Stretch"
+                        Height="40"
+                        Content="Up"
                         Grid.Column="1"
-                        Grid.Row="2">
-                    <BitmapIcon x:Name="DirectionIcon"
-                                UriSource="/Assets/LeverUp.png"
-                                ShowAsMonochrome="False"
-                                VerticalAlignment="Center"
-                                HorizontalAlignment="Center" />
-                </Button>
-                <TextBlock HorizontalAlignment="Center"
-                           HorizontalTextAlignment="Center"
-                           Grid.Row="3"
-                           Grid.Column="1">Down</TextBlock>
-                <TextBlock FontWeight="SemiBold"
+                        Grid.Row="1" />
+                <TextBlock Foreground="Wheat"
+                           FontWeight="SemiBold"
                            HorizontalAlignment="Center"
                            HorizontalTextAlignment="Center"
                            Grid.Column="2">Target</TextBlock>
-                <TextBlock HorizontalAlignment="Center"
-                           HorizontalTextAlignment="Center"
-                           Grid.Row="1"
-                           Grid.Column="2">Single</TextBlock>
-                <Button Click="TargetButton_Click"
-                        Background="Transparent"
-                        HorizontalAlignment="Center"
+                <Button x:Name="TargetButton"
+                        Click="TargetButton_Click"
+                        CornerRadius="0"
+                        HorizontalAlignment="Stretch"
+                        Background="#FD9900"
+                        Foreground="Black"
+                        Height="40"
+                        Content="Single"
                         Grid.Column="2"
-                        Grid.Row="2">
-                    <BitmapIcon x:Name="TargetIcon"
-                                UriSource="/Assets/LeverUp.png"
-                                ShowAsMonochrome="False"
-                                VerticalAlignment="Center"
-                                HorizontalAlignment="Center" />
-                </Button>
-                <TextBlock HorizontalAlignment="Center"
-                           HorizontalTextAlignment="Center"
-                           Grid.Row="3"
-                           Grid.Column="2">Party</TextBlock>
-                <!--<Button Background="Transparent">
-                    <BitmapIcon UriSource="/Assets/Panic.png"
-                                ShowAsMonochrome="False"
-                                VerticalAlignment="Center"
-                                HorizontalAlignment="Center" />
-                </Button>-->
-                <!--<Button Click="BeamUpOne_Click"
+                        Grid.Row="1" />
+                <Button Click="EnergizeButton_Click"
                         HorizontalAlignment="Stretch"
-                        Margin="12">One to beam up</Button>
-                <Button Click="BeamUpParty_Click"
+                        Background="#C55A5A"
+                        Foreground="Black"
+                        CornerRadius="0"
+                        Height="40"
+                        Content="Energize"
+                        Grid.Column="3"
+                        Grid.Row="1" />
+                <Button Click="PanicButton_Click"
                         HorizontalAlignment="Stretch"
-                        Margin="12">Party to beam up</Button>
-                <Button Click="BeamDownOne_Click"
-                        HorizontalAlignment="Stretch"
-                        Margin="12">One to beam down</Button>
-                <Button Click="BeamDownParty_Click"
-                        HorizontalAlignment="Stretch"
-                        Margin="12">Party to beam down</Button>
-                <Button Click="ReplaceParty_Click"
-                        HorizontalAlignment="Stretch"
-                        Margin="12">Party to replace</Button>
-                <Button Click="CloseChannel_Click"
-                        HorizontalAlignment="Stretch"
-                        Margin="12">Close channel</Button>-->
+                        FontWeight="SemiBold"
+                        Foreground="#C55A5A"
+                        Background="Wheat"
+                        CornerRadius="0 20 20 0"
+                        Height="40"
+                        Content="Red Alert"
+                        Grid.Column="4"
+                        Grid.Row="1" />
             </Grid>
 
             <!-- XAML Brewer Logo -->
@@ -174,9 +147,9 @@
                                    Padding="0"
                                    Margin="48 0 8 12">
                                     <Run Text="XAML"
-                                         Foreground="#D67524" />
+                                         Foreground="#C55A5A" />
                                     <Run Text="Brewer"
-                                         Foreground="DimGray"
+                                         Foreground="Wheat"
                                          FontWeight="Light" />
                         </TextBlock>
                     </Grid>

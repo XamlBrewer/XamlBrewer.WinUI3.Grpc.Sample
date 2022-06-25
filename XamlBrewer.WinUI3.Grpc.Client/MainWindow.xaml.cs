@@ -17,8 +17,8 @@ namespace XamlBrewer.WinUI3.Grpc.Client
         private Random _rnd = new Random(DateTime.Now.Millisecond);
 
         private bool _isPowerOn;
-        private bool _isBeamingUp;
-        private bool _isSingleTarget;
+        private bool _isBeamingUp = true;
+        private bool _isSingleTarget = true;
 
         private Uri _leverUpUri = new Uri("ms-resource:///Files/Assets/LeverUp.png");
         private Uri _leverDownUri = new Uri("ms-resource:///Files/Assets/LeverDown.png");
@@ -197,7 +197,7 @@ namespace XamlBrewer.WinUI3.Grpc.Client
 
                 _client = new TransporterClient(_channel);
 
-                PowerIcon.UriSource = _leverDownUri;
+                PowerButton.Content = "On";
             }
             else
             {
@@ -205,7 +205,7 @@ namespace XamlBrewer.WinUI3.Grpc.Client
                 await _channel.ShutdownAsync();
                 WriteLog("- Transporter channel closed.");
 
-                PowerIcon.UriSource = _leverUpUri;
+                PowerButton.Content = "Off";
             }
         }
 
@@ -217,13 +217,13 @@ namespace XamlBrewer.WinUI3.Grpc.Client
             {
                 WriteLog("Beam direction UP.");
 
-                DirectionIcon.UriSource = _leverDownUri;
+                DirectionButton.Content = "Up";
             }
             else
             {
                 WriteLog("Beam direction DOWN.");
 
-                DirectionIcon.UriSource = _leverUpUri;
+                DirectionButton.Content = "Down";
             }
         }
 
@@ -235,14 +235,24 @@ namespace XamlBrewer.WinUI3.Grpc.Client
             {
                 WriteLog("Locked on single.");
 
-                TargetIcon.UriSource = _leverDownUri;
+                TargetButton.Content = "Single";
             }
             else
             {
                 WriteLog("Locked on party.");
 
-                TargetIcon.UriSource = _leverUpUri;
+                TargetButton.Content = "Party";
             }
+        }
+
+        private void EnergizeButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void PanicButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
