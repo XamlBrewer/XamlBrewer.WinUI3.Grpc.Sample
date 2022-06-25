@@ -32,7 +32,21 @@ namespace XamlBrewer.WinUI3.Grpc.Client
             WriteLog("Transporter Room Panel Startup.");
         }
 
-        private void BeamUpOne_Click(object sender, RoutedEventArgs e)
+        private void OpenChannel()
+        {
+            WriteLog("Opening a channel.");
+            _channel = new Channel("localhost:5175", ChannelCredentials.Insecure);
+
+            // Optional: deadline.
+            // Uncomment the delay in Server Program.cs to test this.
+            // await _channel.ConnectAsync(deadline: DateTime.UtcNow.AddSeconds(2));
+
+            WriteLog("- Channel open.");
+
+            _client = new TransporterClient(_channel);
+        }
+
+        private void BeamUpOne()
         {
             var location = new Location
             {
@@ -44,7 +58,24 @@ namespace XamlBrewer.WinUI3.Grpc.Client
             WriteLog($"Beamed up {lifeForm.Rank} {lifeForm.Name} ({lifeForm.Species}) from {location.Description}.");
         }
 
-        private async void BeamUpParty_Click(object sender, RoutedEventArgs e)
+        private async Task BeamDownOne()
+        {
+            var whoEver = Data.LifeForms.WhoEver();
+            var lifeForm = new LifeForm
+            {
+                Species = whoEver.Item1,
+                Name = whoEver.Item2,
+                Rank = whoEver.Item3
+            };
+
+            // var location = _client.BeamDown(lifeForm);
+            // Uncomment the delay in the Service method to test the deadline.
+            var location = await _client.BeamDownAsync(lifeForm, deadline: DateTime.UtcNow.AddSeconds(5));
+
+            WriteLog($"Beamed down {lifeForm.Rank} {lifeForm.Name} ({lifeForm.Species}) to {location.Description}.");
+        }
+
+        private async Task BeamUpParty()
         {
             var location = new Location
             {
@@ -65,24 +96,7 @@ namespace XamlBrewer.WinUI3.Grpc.Client
             WriteLog($"- Party beamed up.");
         }
 
-        private async void BeamDownOne_Click(object sender, RoutedEventArgs e)
-        {
-            var whoEver = Data.LifeForms.WhoEver();
-            var lifeForm = new LifeForm
-            {
-                Species = whoEver.Item1,
-                Name = whoEver.Item2,
-                Rank = whoEver.Item3
-            };
-
-            // var location = _client.BeamDown(lifeForm);
-            // Uncomment the delay in the Service method to test the deadline.
-            var location = await _client.BeamDownAsync(lifeForm, deadline: DateTime.UtcNow.AddSeconds(5));
-
-            WriteLog($"Beamed down {lifeForm.Rank} {lifeForm.Name} ({lifeForm.Species}) to {location.Description}.");
-        }
-
-        private async void BeamDownParty_Click(object sender, RoutedEventArgs e)
+        private async void BeamDownParty()
         {
             var rnd = _rnd.Next(2, 5);
             var lifeForms = new List<LifeForm>();
@@ -117,7 +131,7 @@ namespace XamlBrewer.WinUI3.Grpc.Client
             }
         }
 
-        private async void ReplaceParty_Click(object sender, RoutedEventArgs e)
+        private async void ReplaceParty()
         {
             // Creating a party.
             var rnd = _rnd.Next(2, 5);
@@ -165,7 +179,7 @@ namespace XamlBrewer.WinUI3.Grpc.Client
             WriteLog($"- Party replaced.");
         }
 
-        private async void CloseChannel_Click(object sender, RoutedEventArgs e)
+        private async void CloseChannel()
         {
             WriteLog("Routing all energy to deflector shields.");
             await _channel.ShutdownAsync();
@@ -180,31 +194,18 @@ namespace XamlBrewer.WinUI3.Grpc.Client
 
         private string Stardate => DateTime.Now.ToString("mm:ss.fff");
 
-        private async void PowerButton_Click(object sender, RoutedEventArgs e)
+        private void PowerButton_Click(object sender, RoutedEventArgs e)
         {
             _isPowerOn = !_isPowerOn;
 
             if (_isPowerOn)
             {
-                WriteLog("Opening a channel.");
-                _channel = new Channel("localhost:5175", ChannelCredentials.Insecure);
-
-                // Optional: deadline.
-                // Uncomment the delay in Server Program.cs to test this.
-                // await _channel.ConnectAsync(deadline: DateTime.UtcNow.AddSeconds(2));
-
-                WriteLog("- Channel open.");
-
-                _client = new TransporterClient(_channel);
-
+                OpenChannel();
                 PowerButton.Content = "On";
             }
             else
             {
-                WriteLog("Routing all energy to deflector shields.");
-                await _channel.ShutdownAsync();
-                WriteLog("- Transporter channel closed.");
-
+                CloseChannel();
                 PowerButton.Content = "Off";
             }
         }
@@ -215,13 +216,12 @@ namespace XamlBrewer.WinUI3.Grpc.Client
 
             if (_isBeamingUp)
             {
-                WriteLog("Beam direction UP.");
-
+                WriteLog("Beam direction is up.");
                 DirectionButton.Content = "Up";
             }
             else
             {
-                WriteLog("Beam direction DOWN.");
+                WriteLog("Beam direction is down.");
 
                 DirectionButton.Content = "Down";
             }
@@ -245,14 +245,35 @@ namespace XamlBrewer.WinUI3.Grpc.Client
             }
         }
 
-        private void EnergizeButton_Click(object sender, RoutedEventArgs e)
+        private async void EnergizeButton_Click(object sender, RoutedEventArgs e)
         {
-
+            if (_isBeamingUp)
+            {
+                if (_isSingleTarget)
+                {
+                    BeamUpOne();
+                }
+                else
+                {
+                    await BeamUpParty();
+                }
+            }
+            else
+            {
+                if (_isSingleTarget)
+                {
+                    await BeamDownOne();
+                }
+                else
+                {
+                    BeamDownParty();
+                }
+            }
         }
 
         private void PanicButton_Click(object sender, RoutedEventArgs e)
         {
-
+            ReplaceParty();
         }
     }
 }
