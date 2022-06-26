@@ -5,14 +5,14 @@ namespace XamlBrewer.WinUI3.Grpc.Data
 {
     public static class LifeForms
     {
-        private static Random _rnd = new Random(DateTime.Now.Millisecond);
+        private static readonly Random _rnd = new(DateTime.Now.Millisecond);
 
         public static Tuple<string, string, string> WhoEver()
         {
             return _LifeForms[_rnd.Next(_LifeForms.Count)];
         }
 
-        private static List<Tuple<string, string, string>> _LifeForms = new List<Tuple<string, string, string>>
+        private static readonly List<Tuple<string, string, string>> _LifeForms = new()
         {
             Tuple.Create("Human", "James T. Kirk", "Captain"),
             Tuple.Create("Human", "Christopher Pike", "Captain"),

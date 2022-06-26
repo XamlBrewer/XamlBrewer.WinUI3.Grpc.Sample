@@ -6,15 +6,7 @@ namespace XamlBrewer.WinUI3.Grpc.Server.Services
 {
     public class TransporterService : TransporterBase
     {
-        private Random _rnd = new Random(DateTime.Now.Millisecond);
-
-        public override Task<Location> Lock(Location request, ServerCallContext context)
-        {
-            return Task.FromResult(new Location
-            {
-                Description = Data.Locations.WhereEver()
-            });
-        }
+        private readonly Random _rnd = new(DateTime.Now.Millisecond);
 
         public override Task<LifeForm> BeamUp(Location request, ServerCallContext context)
         {
@@ -75,6 +67,8 @@ namespace XamlBrewer.WinUI3.Grpc.Server.Services
             while (await requestStream.MoveNext())
             {
                 // var beamedUp = requestStream.Current;
+                // ...
+
                 var beamDown = Data.LifeForms.WhoEver();
                 await responseStream.WriteAsync(new LifeForm
                 {

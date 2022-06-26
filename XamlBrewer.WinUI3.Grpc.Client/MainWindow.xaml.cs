@@ -14,14 +14,11 @@ namespace XamlBrewer.WinUI3.Grpc.Client
         private Channel _channel;
         private TransporterClient _client;
 
-        private Random _rnd = new Random(DateTime.Now.Millisecond);
+        private readonly Random _rnd = new(DateTime.Now.Millisecond);
 
         private bool _isPowerOn;
         private bool _isBeamingUp = true;
         private bool _isSingleTarget = true;
-
-        private Uri _leverUpUri = new Uri("ms-resource:///Files/Assets/LeverUp.png");
-        private Uri _leverDownUri = new Uri("ms-resource:///Files/Assets/LeverDown.png");
 
         public MainWindow()
         {

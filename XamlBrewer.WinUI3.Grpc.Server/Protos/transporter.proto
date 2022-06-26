@@ -6,9 +6,6 @@ package Startrek;
 
 // Transporter Room API
 service Transporter {
-  // Lock the beam to a location.
-  rpc Lock(Location) returns (Location) {}
-
   // Beam up a single life form from a location.
   rpc BeamUp(Location) returns (LifeForm) {}
 

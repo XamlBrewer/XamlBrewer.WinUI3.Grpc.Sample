@@ -5,14 +5,14 @@ namespace XamlBrewer.WinUI3.Grpc.Data
 {
     public static class Locations
     {
-        private static Random _rnd = new Random(DateTime.Now.Millisecond);
+        private static readonly Random _rnd = new(DateTime.Now.Millisecond);
 
         public static string WhereEver()
         {
             return _Locations[_rnd.Next(_Locations.Count)];
         }
 
-        private static List<string> _Locations = new List<string>
+        private static List<string> _Locations = new()
         {
             "starship USS Enterprise",
             "starship USS Voyager",
