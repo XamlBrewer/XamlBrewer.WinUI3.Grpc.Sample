@@ -17,7 +17,7 @@ namespace XamlBrewer.WinUI3.Grpc.Server.Services
                 Name = whoEver.Item2,
                 Rank = whoEver.Item3
             };
-
+            
             return Task.FromResult(result);
         }
 

@@ -1,4 +1,9 @@
 ﻿using Grpc.Core;
+using Grpc.Net.Client;
+using Grpc.Net.Client.Balancer;
+using Grpc.Net.Client.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Startrek;
@@ -41,6 +46,38 @@ namespace XamlBrewer.WinUI3.Grpc.Client
             WriteLog("- Channel open.");
 
             _client = new TransporterClient(_channel);
+        }
+
+        // Requires gRPC.Net.Client
+        private void OpenLoadBalancingChannel()
+        {
+            var factory = new StaticResolverFactory(addr => new[]
+            {
+                new BalancerAddress("localhost", 7175),
+                new BalancerAddress("localhost", 5175)
+            });
+
+            var services = new ServiceCollection();
+            services.AddLogging(c => c.AddConsole(opt => opt.LogToStandardErrorThreshold = LogLevel.Trace));
+            services.AddSingleton<ResolverFactory>(factory);
+
+            var loggerFactory = LoggerFactory.Create(logging =>
+            {
+                logging.AddConsole();
+                logging.SetMinimumLevel(LogLevel.Trace);
+            });
+
+            var channel = GrpcChannel.ForAddress(
+                "static:///transporter-host", /* "http://localhost:5175", */
+                new GrpcChannelOptions
+                {
+                    Credentials = ChannelCredentials.Insecure,
+                    ServiceProvider = services.BuildServiceProvider(),
+                    LoggerFactory = loggerFactory,
+                    ServiceConfig = new ServiceConfig { LoadBalancingConfigs = { new RoundRobinConfig() } }
+                });
+
+            _client = new TransporterClient(channel);
         }
 
         private void BeamUpOne()
@@ -197,7 +234,8 @@ namespace XamlBrewer.WinUI3.Grpc.Client
 
             if (_isPowerOn)
             {
-                OpenChannel();
+                //OpenChannel();
+                OpenLoadBalancingChannel(); 
                 PowerButton.Content = "On";
             }
             else
