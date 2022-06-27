@@ -25,11 +25,15 @@ namespace XamlBrewer.WinUI3.Grpc.Client
         private bool _isBeamingUp = true;
         private bool _isSingleTarget = true;
 
+        [System.Runtime.InteropServices.DllImport("kernel32.dll")]
+        private static extern bool AllocConsole();
+
         public MainWindow()
         {
             Title = "XAML Brewer WinUI 3 gRPC Client Sample";
 
             InitializeComponent();
+            AllocConsole();
 
             WriteLog("Transporter Room Panel Startup.");
         }
@@ -58,17 +62,17 @@ namespace XamlBrewer.WinUI3.Grpc.Client
             });
 
             var services = new ServiceCollection();
-            services.AddLogging(c => c.AddConsole(opt => opt.LogToStandardErrorThreshold = LogLevel.Trace));
             services.AddSingleton<ResolverFactory>(factory);
 
             var loggerFactory = LoggerFactory.Create(logging =>
             {
                 logging.AddConsole();
-                logging.SetMinimumLevel(LogLevel.Trace);
+                logging.AddDebug();
+                logging.SetMinimumLevel(LogLevel.Debug);
             });
 
             var channel = GrpcChannel.ForAddress(
-                "static:///transporter-host", /* "http://localhost:5175", */
+                "static:///transporter-host", 
                 new GrpcChannelOptions
                 {
                     Credentials = ChannelCredentials.Insecure,
