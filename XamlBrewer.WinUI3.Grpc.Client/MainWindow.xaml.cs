@@ -102,11 +102,17 @@ namespace XamlBrewer.WinUI3.Grpc.Client
                 Rank = whoEver.Item3
             };
 
-            // var location = _client.BeamDown(lifeForm);
-            // Uncomment the delay in the Service method to test the deadline.
-            var location = await _client.BeamDownAsync(lifeForm, deadline: DateTime.UtcNow.AddSeconds(5));
+            try
+            {
+                // Uncomment the delay in the Service method to test the deadline.
+                var location = await _client.BeamDownAsync(lifeForm, deadline: DateTime.UtcNow.AddSeconds(5));
 
-            WriteLog($"Beamed down {lifeForm.Rank} {lifeForm.Name} ({lifeForm.Species}) to {location.Description}.");
+                WriteLog($"Beamed down {lifeForm.Rank} {lifeForm.Name} ({lifeForm.Species}) to {location.Description}.");
+            }
+            catch (RpcException ex) when (ex.StatusCode == StatusCode.DeadlineExceeded)
+            {
+                WriteLog("!!! Beam down timeout.");
+            }
         }
 
         private async Task BeamUpParty()
@@ -235,7 +241,7 @@ namespace XamlBrewer.WinUI3.Grpc.Client
             if (_isPowerOn)
             {
                 //OpenChannel();
-                OpenLoadBalancingChannel(); 
+                OpenLoadBalancingChannel();
                 PowerButton.Content = "On";
             }
             else
