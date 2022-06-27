@@ -2,7 +2,10 @@
 
 Demonstrates building a gRPC client WinUI 3 Desktop application, against an ASP.NET Core gRPC server:
 * calling and streaming,
-* deadlines and cancellation,
+* deadlines,
+* logging,
 * client-side load balancing.
 
 ![Screenshot](Assets/GrpcConsole.png?raw=true)
+
+![Screenshot](Assets/LoadBalancerLog.png?raw=true)
