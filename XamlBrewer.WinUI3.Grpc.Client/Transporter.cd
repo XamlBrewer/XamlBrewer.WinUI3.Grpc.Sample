@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Startrek.LifeForm" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="1" Width="3" />
+    <Members>
+      <Property Name="Descriptor" Hidden="true" />
+      <Property Name="Parser" Hidden="true" />
+      <Property Name="pb::IMessage.Descriptor" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAlAgAqIEAAACYEgAAAAAwAAEEAIIAgAAAAAAAAIBA=</HashCode>
+      <FileName>Transporter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Startrek.Location" BaseTypeListCollapsed="true">
+    <Position X="3.75" Y="1" Width="3" />
+    <Members>
+      <Property Name="Descriptor" Hidden="true" />
+      <Property Name="Parser" Hidden="true" />
+      <Property Name="pb::IMessage.Descriptor" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAgAgAiAEAgACYEoAAAAAAAAEEAAIAgABAAAAAAABA=</HashCode>
+      <FileName>Transporter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Startrek.Transporter">
+    <Position X="7" Y="1" Width="3" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Properties" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Class Name="Startrek.Transporter.__Helper_MessageCache&lt;T&gt;" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>TransporterGrpc.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+      <Class Name="Startrek.Transporter.TransporterBase" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>TransporterGrpc.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+      <Class Name="Startrek.Transporter.TransporterClient">
+        <Members>
+          <Method Name="Lock" Hidden="true" />
+          <Method Name="LockAsync" Hidden="true" />
+        </Members>
+        <TypeIdentifier>
+          <NewMemberFileName>TransporterGrpc.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AgAgCAAAAEAAAQAAEAACIAAABAAAAAEAAAUAAAIAAAA=</HashCode>
+      <FileName>TransporterGrpc.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
