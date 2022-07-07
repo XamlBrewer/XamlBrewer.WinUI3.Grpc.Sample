@@ -16,7 +16,7 @@ namespace XamlBrewer.WinUI3.Grpc.Client
 {
     public sealed partial class MainWindow : Window
     {
-        private Channel _channel;
+        private ChannelBase _channel;
         private TransporterClient _client;
 
         private readonly Random _rnd = new(DateTime.Now.Millisecond);
@@ -71,8 +71,8 @@ namespace XamlBrewer.WinUI3.Grpc.Client
                 logging.SetMinimumLevel(LogLevel.Debug);
             });
 
-            var channel = GrpcChannel.ForAddress(
-                "static:///transporter-host", 
+            _channel = GrpcChannel.ForAddress(
+                "static:///transporter-host",
                 new GrpcChannelOptions
                 {
                     Credentials = ChannelCredentials.Insecure,
@@ -81,7 +81,7 @@ namespace XamlBrewer.WinUI3.Grpc.Client
                     ServiceConfig = new ServiceConfig { LoadBalancingConfigs = { new RoundRobinConfig() } }
                 });
 
-            _client = new TransporterClient(channel);
+            _client = new TransporterClient(_channel);
         }
 
         private void BeamUpOne()
