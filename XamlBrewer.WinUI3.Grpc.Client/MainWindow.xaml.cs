@@ -1,4 +1,5 @@
 ﻿using Grpc.Core;
+using Grpc.Health.V1;
 using Grpc.Net.Client;
 using Grpc.Net.Client.Balancer;
 using Grpc.Net.Client.Configuration;
@@ -20,6 +21,7 @@ namespace XamlBrewer.WinUI3.Grpc.Client
         private TransporterClient _client;
 
         private readonly Random _rnd = new(DateTime.Now.Millisecond);
+        private DispatcherTimer _heartBeatTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(30) };
 
         private bool _isPowerOn;
         private bool _isBeamingUp = true;
@@ -35,6 +37,8 @@ namespace XamlBrewer.WinUI3.Grpc.Client
             InitializeComponent();
             AllocConsole();
 
+            _heartBeatTimer.Tick += HeartBeatTimer_Tick;
+
             WriteLog("Transporter Room Panel Startup.");
         }
 
@@ -49,12 +53,16 @@ namespace XamlBrewer.WinUI3.Grpc.Client
 
             WriteLog("- Channel open.");
 
+            _heartBeatTimer.Start();
+
             _client = new TransporterClient(_channel);
         }
 
         // Requires gRPC.Net.Client
         private void OpenLoadBalancingChannel()
         {
+            WriteLog("Opening a channel.");
+
             var factory = new StaticResolverFactory(addr => new[]
             {
                 new BalancerAddress("localhost", 7175),
@@ -81,7 +89,26 @@ namespace XamlBrewer.WinUI3.Grpc.Client
                     ServiceConfig = new ServiceConfig { LoadBalancingConfigs = { new RoundRobinConfig() } }
                 });
 
+            WriteLog("- Channel open.");
+
+            _heartBeatTimer.Start();
+
             _client = new TransporterClient(_channel);
+        }
+
+        private void HeartBeatTimer_Tick(object sender, object e)
+        {
+            var client = new Health.HealthClient(_channel);
+
+            try
+            {
+                var response = client.Check(new HealthCheckRequest());
+                WriteLog($"*** Transporter service status: {response.Status}.");
+            }
+            catch (Exception ex)
+            {
+                WriteLog($"*** Transporter service error: {ex.Message}.");
+            }
         }
 
         private void BeamUpOne()
@@ -226,6 +253,7 @@ namespace XamlBrewer.WinUI3.Grpc.Client
         private async void CloseChannel()
         {
             WriteLog("Routing all energy to deflector shields.");
+            _heartBeatTimer.Stop();
             await _channel.ShutdownAsync();
             WriteLog("- Transporter channel closed.");
         }

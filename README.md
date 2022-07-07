@@ -4,7 +4,8 @@ Demonstrates building a gRPC client WinUI 3 Desktop application, against an ASP.
 * calling and streaming,
 * deadlines,
 * logging,
-* client-side load balancing.
+* client-side load balancing,
+* health monitoring.
 
 ![Screenshot](Assets/GrpcConsole.png?raw=true)
 
